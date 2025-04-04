@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using UserService.Data;
-using UserService.Models;
+using UsersAndAuth.Data;
+using UsersAndAuth.Models;
+using UsersAndAuth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +37,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 	options.AccessDeniedPath = "/api/auth/access-denied";
 });
 
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOpenApi();
 

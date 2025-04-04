@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using UserService.Data;
-using UserService.Models;
+using UsersAndAuth.Data;
+using UsersAndAuth.Models;
 
-namespace UserService.Services;
+namespace UsersAndAuth.Services;
 
 public class UserService(UserDbContext context) : IUserService
 {

@@ -5,14 +5,14 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-COPY ["UserService.csproj", "./"]
-RUN dotnet restore "UserService.csproj"
+COPY ["UsersAndAuth.csproj", "./"]
+RUN dotnet restore "UsersAndAuth.csproj"
 
 COPY . .
-RUN dotnet publish "UserService.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish "UsersAndAuth.csproj" -c Release -o /app/publish --no-restore
 
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["dotnet", "UserService.dll"]
+ENTRYPOINT ["dotnet", "UsersAndAuth.dll"]

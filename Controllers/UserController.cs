@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
-using UserService.Services;
+using UsersAndAuth.Services;
 
-namespace UserService.Controllers;
+namespace UsersAndAuth.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UserController(IUserService userService) : ControllerBase
+public class UserController(IUserService UserService) : ControllerBase
 {
 	[HttpGet]
 	public async Task<IActionResult> GetUsersAsync()
 	{
-		var users = await userService.GetUsersAsync();
+		var users = await UserService.GetUsersAsync();
 
 		if (users is null || users.Count == 0) return BadRequest("No users found");
 
@@ -20,7 +20,7 @@ public class UserController(IUserService userService) : ControllerBase
 	[HttpGet("id-{id}")]
 	public async Task<IActionResult> GetUserById(string id)
 	{
-		var user = await userService.GetUserByIdAsync(id);
+		var user = await UserService.GetUserByIdAsync(id);
 
 		if (user is null) return BadRequest("No user found");
 
@@ -30,7 +30,7 @@ public class UserController(IUserService userService) : ControllerBase
 	[HttpGet("username-{userName}")]
 	public async Task<IActionResult> GetUserByUsername(string userName)
 	{
-		var user = await userService.GetUserByUserNameAsync(userName);
+		var user = await UserService.GetUserByUserNameAsync(userName);
 
 		if (user is null) return BadRequest("No user found");
 

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Data.Dtos;
-using UserService.Models;
+using UsersAndAuth.Data.Dtos;
+using UsersAndAuth.Models;
 
-namespace UserService.Controllers;
+namespace UsersAndAuth.Controllers;
 
 [ApiController]
 [Route("api/auth")]

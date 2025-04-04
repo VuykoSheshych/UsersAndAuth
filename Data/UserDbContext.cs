@@ -1,20 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UserService.Models;
+using UsersAndAuth.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace UserService.Data;
+namespace UsersAndAuth.Data;
 
 public class UserDbContext(DbContextOptions<UserDbContext> options) : IdentityDbContext<User>(options)
 {
 	public DbSet<Notification> Notifications { get; set; }
 	public DbSet<UserNotification> UserNotifications { get; set; }
+	public DbSet<UserFriend> UserFriends { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
 
 		modelBuilder.Entity<UserNotification>()
-			.HasKey(un => new { un.ReceiverId, un.NotificationId });
+			.HasKey(un => un.Id);
 
 		modelBuilder.Entity<UserNotification>()
 			.HasOne(un => un.Receiver)
@@ -25,5 +26,20 @@ public class UserDbContext(DbContextOptions<UserDbContext> options) : IdentityDb
 			.HasOne(un => un.Notification)
 			.WithMany(n => n.UserNotifications)
 			.HasForeignKey(un => un.NotificationId);
+
+		modelBuilder.Entity<UserFriend>()
+			.HasKey(uf => new { uf.UserId, uf.FriendId });
+
+		modelBuilder.Entity<UserFriend>()
+			.HasOne(uf => uf.User)
+			.WithMany(u => u.Friends)
+			.HasForeignKey(uf => uf.UserId)
+			.OnDelete(DeleteBehavior.Restrict);
+
+		modelBuilder.Entity<UserFriend>()
+			.HasOne(uf => uf.Friend)
+			.WithMany()
+			.HasForeignKey(uf => uf.FriendId)
+			.OnDelete(DeleteBehavior.Restrict);
 	}
 }
