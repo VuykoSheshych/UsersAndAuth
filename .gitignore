@@ -1,0 +1,51 @@
+# Visual Studio specific files
+.vs/
+*.user
+*.suo
+*.cache
+*.bak
+*.log
+*.ncb
+*.opendb
+*.pdb
+*.VC.db
+
+# Cache and output builds
+bin/
+obj/
+out/
+*.dll
+*.exe
+*.app
+*.so
+*.dylib
+*.o
+*.a
+
+# Dependency files
+node_modules/
+packages/
+wwwroot/lib/
+bower_components/
+.vscode/
+
+# Confidential files
+appsettings.Development.json
+secrets/
+.env
+.env.local
+.env.*.local
+tempkey.jwk
+
+# NuGet
+*.nupkg
+project.lock.json
+artifacts/
+nuget.exe
+NUGET_PACKAGES/
+
+# Mac/Linux specific files
+.DS_Store
+*.swp
+*.swo
+Thumbs.db
