@@ -6,7 +6,7 @@ using UsersAndAuth.Models;
 namespace UsersAndAuth.Controllers;
 
 [ApiController]
-[Route("api/auth")]
+[Route("auth")]
 public class AuthController(UserManager<User> userManager, SignInManager<User> signInManager) : ControllerBase
 {
 	[HttpPost("register")]

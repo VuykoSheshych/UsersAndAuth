@@ -17,7 +17,7 @@ if (builder.Environment.IsDevelopment())
 else
 {
 	// В інших випадках використовується змінна середовища
-	dbConnection = Environment.GetEnvironmentVariable("USER_DB_CONNECTION")!;
+	dbConnection = Environment.GetEnvironmentVariable("USERS_DB_CONNECTION")!;
 	// In other cases, environment variable are used
 }
 
@@ -33,8 +33,8 @@ builder.Services.AddIdentity<User, IdentityRole>()
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.Cookie.HttpOnly = true;
-	options.LoginPath = "/api/auth/login";
-	options.AccessDeniedPath = "/api/auth/access-denied";
+	options.LoginPath = "/auth/login";
+	options.AccessDeniedPath = "/auth/access-denied";
 });
 
 builder.Services.AddScoped<IUserService, UserService>();

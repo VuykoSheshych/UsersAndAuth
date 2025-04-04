@@ -4,7 +4,7 @@ using UsersAndAuth.Services;
 
 namespace UsersAndAuth.Controllers;
 
-[Route("api/notifications")]
+[Route("notifications")]
 [ApiController]
 public class NotificationController(INotificationService notificationService) : ControllerBase
 {
