@@ -1,0 +1,63 @@
+name: Full CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    name: Build and Publish to DockerHub
+    environment: Production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to DockerHub
+        run: |
+          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build and push UsersAndAuth image
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/users-and-auth:latest -f Dockerfile .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/users-and-auth:latest
+
+  deploy:
+    needs: build-and-push
+    name: Deploy to Kubernetes
+    environment: Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start Minikube
+        run: |
+          minikube start --driver=docker
+          minikube status
+          minikube update-context
+
+      - name: Set up kubectl
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" > kubeconfig
+          export KUBECONFIG=$(pwd)/kubeconfig
+          kubectl cluster-info
+
+      - name: Apply Kubernetes manifests
+        run: |
+          sed -i 's|DOCKER_HUB_USERNAME_REPLACE|${{ secrets.DOCKER_HUB_USERNAME }}|g' k8s/users-and-auth.yaml
+          sed -i 's|USERS_DB_CONNECTION_REPLACE|${{ secrets.USERS_DB_CONNECTION }}|g' k8s/users-and-auth.yaml
+          sed -i 's|USERS_AND_AUTH_DB_USER_REPLACE|${{ secrets.USERS_AND_AUTH_DB_USER }}|g' k8s/users-and-auth-db.yaml
+          sed -i 's|USERS_AND_AUTH_DB_PASSWORD_REPLACE|${{ secrets.USERS_AND_AUTH_DB_PASSWORD }}|g' k8s/users-and-auth-db.yaml
+          sed -i 's|USERS_AND_AUTH_DB_REPLACE|${{ secrets.USERS_AND_AUTH_DB }}|g' k8s/users-and-auth-db.yaml
+          kubectl apply -f k8s/
+
+      - name: Update deployment images
+        run: |
+          kubectl set image deployment/users-and-auth users-and-auth=${{ secrets.DOCKER_HUB_USERNAME }}/users-and-auth:latest
+          kubectl rollout restart deployment/users-and-auth

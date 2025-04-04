@@ -1,0 +1,70 @@
+# ========================== #
+#   UsersAndAuth PostgreSQL  #
+# ========================== #
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: users-and-auth-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-and-auth-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-and-auth-db
+  template:
+    metadata:
+      labels:
+        app: users-and-auth-db
+    spec:
+      containers:
+        - name: users-and-auth-db
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          env:
+            - name: POSTGRES_USER
+              value: "USERS_AND_AUTH_DB_USER_REPLACE"
+            - name: POSTGRES_PASSWORD
+              value: "USERS_AND_AUTH_DB_PASSWORD_REPLACE"
+            - name: POSTGRES_DB
+              value: "USERS_AND_AUTH_DB_REPLACE"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: users-and-auth-db-storage
+      volumes:
+        - name: users-and-auth-db-storage
+          persistentVolumeClaim:
+            claimName: users-and-auth-db-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-and-auth-db-service
+spec:
+  selector:
+    app: users-and-auth-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP

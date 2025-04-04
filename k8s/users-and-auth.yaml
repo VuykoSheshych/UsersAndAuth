@@ -1,0 +1,49 @@
+# ====================== #
+#      UsersAndAuth      #
+# ====================== #
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-and-auth
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: users-and-auth
+  template:
+    metadata:
+      labels:
+        app: users-and-auth
+    spec:
+      containers:
+        - name: users-and-auth
+          image: DOCKER_HUB_USERNAME_REPLACE/users-and-auth:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: USERS_DB_CONNECTION
+              value: "USERS_DB_CONNECTION_REPLACE"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-and-auth-service
+spec:
+  selector:
+    app: users-and-auth
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
