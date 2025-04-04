@@ -5,12 +5,12 @@ namespace UsersAndAuth.Controllers;
 
 [ApiController]
 [Route("users")]
-public class UserController(IUserService UserService) : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
 	[HttpGet]
 	public async Task<IActionResult> GetUsersAsync()
 	{
-		var users = await UserService.GetUsersAsync();
+		var users = await userService.GetUsersAsync();
 
 		if (users is null || users.Count == 0) return BadRequest("No users found");
 
@@ -20,7 +20,7 @@ public class UserController(IUserService UserService) : ControllerBase
 	[HttpGet("id-{id}")]
 	public async Task<IActionResult> GetUserById(string id)
 	{
-		var user = await UserService.GetUserByIdAsync(id);
+		var user = await userService.GetUserByIdAsync(id);
 
 		if (user is null) return BadRequest("No user found");
 
@@ -30,7 +30,7 @@ public class UserController(IUserService UserService) : ControllerBase
 	[HttpGet("username-{userName}")]
 	public async Task<IActionResult> GetUserByUsername(string userName)
 	{
-		var user = await UserService.GetUserByUserNameAsync(userName);
+		var user = await userService.GetUserByUserNameAsync(userName);
 
 		if (user is null) return BadRequest("No user found");
 
