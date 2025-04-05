@@ -14,15 +14,42 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Publish to DockerHub
     environment: Production
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Authenticate GitHub NuGet Registry
+        run: |
+          dotnet nuget update source github \
+            --username VuykoSheshych \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text
+
+      - name: Restore dependencies
+        run: dotnet restore UsersAndAuth.csproj
+
+      - name: Publish project
+        run: dotnet publish UsersAndAuth.csproj -c Release -o ./publish --no-restore
 
       - name: Log in to DockerHub
         run: |
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
-      - name: Build and push UsersAndAuth image
+      - name: Build and push Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/users-and-auth:latest -f Dockerfile .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/users-and-auth:latest
@@ -32,6 +59,7 @@ jobs:
     name: Deploy to Kubernetes
     environment: Production
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
