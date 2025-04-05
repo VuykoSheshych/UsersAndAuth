@@ -1,6 +1,6 @@
+using ChessShared.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using UsersAndAuth.Data.Dtos;
 using UsersAndAuth.Data.Models;
 
 namespace UsersAndAuth.Controllers;

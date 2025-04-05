@@ -1,5 +1,5 @@
+using ChessShared.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using UsersAndAuth.Data.Dtos;
 using UsersAndAuth.Services;
 
 namespace UsersAndAuth.Controllers;
