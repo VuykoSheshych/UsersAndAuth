@@ -1,4 +1,4 @@
-namespace UsersAndAuth.Models;
+namespace UsersAndAuth.Data.Models;
 
 public class UserFriend
 {

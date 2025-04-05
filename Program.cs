@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UsersAndAuth.Data;
-using UsersAndAuth.Models;
+using UsersAndAuth.Data.Models;
 using UsersAndAuth.Services;
 
 var builder = WebApplication.CreateBuilder(args);

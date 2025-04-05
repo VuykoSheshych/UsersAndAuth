@@ -4,8 +4,8 @@ using UsersAndAuth.Services;
 
 namespace UsersAndAuth.Controllers;
 
-[Route("notifications")]
 [ApiController]
+[Route("notifications")]
 public class NotificationController(INotificationService notificationService) : ControllerBase
 {
 	[HttpPost("send")]

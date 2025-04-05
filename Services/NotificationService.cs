@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UsersAndAuth.Data;
-using UsersAndAuth.Models;
+using UsersAndAuth.Data.Models;
 
 namespace UsersAndAuth.Services;
 

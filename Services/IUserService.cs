@@ -1,4 +1,4 @@
-using UsersAndAuth.Models;
+using UsersAndAuth.Data.Models;
 
 namespace UsersAndAuth.Services;
 
