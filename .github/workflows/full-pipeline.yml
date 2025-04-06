@@ -40,7 +40,7 @@ jobs:
           dotnet nuget add source https://nuget.pkg.github.com/VuykoSheshych/index.json \
             --name github \
             --username VuykoSheshych \
-            --password ${{ secrets.GITHUB_TOKEN }} \
+            --password ${{ secrets.NUGET_DEPLOY_GITHUB_TOKEN }} \
             --store-password-in-clear-text
 
       - name: Restore dependencies
