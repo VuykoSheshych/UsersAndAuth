@@ -33,6 +33,10 @@ spec:
               value: "Production"
             - name: USERS_DB_CONNECTION
               value: "USERS_DB_CONNECTION_REPLACE"
+            - name: JWT_OPTIONS
+              value: "JWT_OPTIONS_REPLACE"
+            - name: FRONTEND_URL
+              value: "FRONTEND_URL_REPLACE"
 
 ---
 apiVersion: v1

@@ -87,6 +87,8 @@ jobs:
           sed -i 's|USERS_AND_AUTH_DB_USER_REPLACE|${{ secrets.USERS_AND_AUTH_DB_USER }}|g' k8s/users-and-auth-db.yaml
           sed -i 's|USERS_AND_AUTH_DB_PASSWORD_REPLACE|${{ secrets.USERS_AND_AUTH_DB_PASSWORD }}|g' k8s/users-and-auth-db.yaml
           sed -i 's|USERS_AND_AUTH_DB_REPLACE|${{ secrets.USERS_AND_AUTH_DB }}|g' k8s/users-and-auth-db.yaml
+          sed -i 's|JWT_OPTIONS_REPLACE|${{ secrets.JWT_OPTIONS }}|g' k8s/users-and-auth.yaml
+          sed -i 's|FRONTEND_URL_REPLACE|${{ secrets.FRONTEND_URL }}|g' k8s/users-and-auth.yaml
           kubectl apply -f k8s/
 
       - name: Update deployment images
