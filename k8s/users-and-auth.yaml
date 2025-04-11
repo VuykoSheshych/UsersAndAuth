@@ -20,7 +20,7 @@ spec:
         - name: users-and-auth
           image: DOCKER_HUB_USERNAME_REPLACE/users-and-auth:latest
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           resources:
             requests:
               cpu: 100m
@@ -49,5 +49,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8080
   type: ClusterIP
