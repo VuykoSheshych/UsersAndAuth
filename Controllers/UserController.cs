@@ -34,6 +34,6 @@ public class UserController(IUserService userService) : ControllerBase
 
 		if (user is null) return BadRequest("No user found");
 
-		return Ok(user);
+		return Ok(userService.CreateUserDto(user));
 	}
 }

@@ -1,3 +1,4 @@
+using ChessShared.Dtos;
 using Microsoft.EntityFrameworkCore;
 using UsersAndAuth.Data;
 using UsersAndAuth.Data.Models;
@@ -18,5 +19,9 @@ public class UserService(UserDbContext context) : IUserService
 	public async Task<User?> GetUserByUserNameAsync(string userName)
 	{
 		return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+	}
+	public UserDto CreateUserDto(User user)
+	{
+		return new UserDto(user.Id, user.UserName!, user.EloRating);
 	}
 }
