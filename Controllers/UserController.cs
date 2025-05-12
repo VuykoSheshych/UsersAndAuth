@@ -1,3 +1,4 @@
+using ChessShared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using UsersAndAuth.Services;
 
@@ -35,5 +36,15 @@ public class UserController(IUserService userService) : ControllerBase
 		if (user is null) return BadRequest("No user found");
 
 		return Ok(userService.CreateUserDto(user));
+	}
+
+	[HttpPost("update-user/{userId}")]
+	public async Task<IActionResult> UpdateUser(string userId, [FromBody] UserDto userDto)
+	{
+		if (userId != userDto.Id) return BadRequest("User ID mismatch");
+
+		await userService.UpdateUserAsync(userDto);
+
+		return Ok();
 	}
 }

@@ -9,4 +9,5 @@ public interface IUserService
 	Task<User?> GetUserByIdAsync(string userId);
 	Task<User?> GetUserByUserNameAsync(string userName);
 	UserDto CreateUserDto(User user);
+	Task UpdateUserAsync(UserDto userDto);
 }
