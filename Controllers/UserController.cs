@@ -1,11 +1,12 @@
 using ChessShared.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using UsersAndAuth.Data.Models;
 using UsersAndAuth.Services;
 
 namespace UsersAndAuth.Controllers;
 
 [ApiController]
-[Route("users")]
+[Route("api/users")]
 public class UserController(IUserService userService) : ControllerBase
 {
 	[HttpGet]
@@ -46,5 +47,18 @@ public class UserController(IUserService userService) : ControllerBase
 		await userService.UpdateUserAsync(userDto);
 
 		return Ok();
+	}
+
+	[HttpPost("feedback")]
+	public async Task<IActionResult> SaveFeedback([FromBody] Feedback feedback)
+	{
+		await userService.SaveFeedback(feedback);
+		return Ok();
+	}
+
+	[HttpGet("feedbacks")]
+	public async Task<IActionResult> GetFeedbacks()
+	{
+		return Ok(await userService.GetFeedbacksAsync());
 	}
 }

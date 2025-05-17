@@ -10,4 +10,6 @@ public interface IUserService
 	Task<User?> GetUserByUserNameAsync(string userName);
 	UserDto CreateUserDto(User user);
 	Task UpdateUserAsync(UserDto userDto);
+	Task SaveFeedback(Feedback feedback);
+	Task<List<Feedback>> GetFeedbacksAsync();
 }

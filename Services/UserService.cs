@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Threading.Tasks;
 using ChessShared.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +8,7 @@ using UsersAndAuth.Data.Models;
 
 namespace UsersAndAuth.Services;
 
-public class UserService(UserManager<User> _userManager) : IUserService
+public class UserService(UserManager<User> _userManager, UserDbContext _context) : IUserService
 {
 	public async Task<List<User>> GetUsersAsync()
 	{
@@ -39,5 +41,16 @@ public class UserService(UserManager<User> _userManager) : IUserService
 	public UserDto CreateUserDto(User user)
 	{
 		return new UserDto(user.Id, user.UserName!, user.EloRating, user.Avatar);
+	}
+
+	public async Task SaveFeedback(Feedback feedback)
+	{
+		await _context.Feedbacks.AddAsync(feedback);
+		await _context.SaveChangesAsync();
+	}
+
+	public async Task<List<Feedback>> GetFeedbacksAsync()
+	{
+		return await _context.Feedbacks.OrderBy(f => f.DateTime).ToListAsync();
 	}
 }

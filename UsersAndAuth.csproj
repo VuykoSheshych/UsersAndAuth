@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.7.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.0" />
-	<PackageReference Include="Chess.Shared" Version="0.3.6" />
+	<PackageReference Include="Chess.Shared" Version="0.4.0" />
 	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
   </ItemGroup>
 

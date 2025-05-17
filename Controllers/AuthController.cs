@@ -7,7 +7,7 @@ using UsersAndAuth.Services;
 namespace UsersAndAuth.Controllers;
 
 [ApiController]
-[Route("auth")]
+[Route("api/auth")]
 public class AuthController(IAuthService authService) : ControllerBase
 {
 	[HttpPost("register")]

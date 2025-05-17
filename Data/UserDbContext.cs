@@ -9,6 +9,7 @@ public class UserDbContext(DbContextOptions<UserDbContext> options) : IdentityDb
 	public DbSet<Notification> Notifications { get; set; }
 	public DbSet<UserNotification> UserNotifications { get; set; }
 	public DbSet<UserFriend> UserFriends { get; set; }
+	public DbSet<Feedback> Feedbacks { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
