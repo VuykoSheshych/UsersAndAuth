@@ -6,7 +6,7 @@ using UsersAndAuth.Services;
 namespace UsersAndAuth.Controllers;
 
 [ApiController]
-[Route("api/users")]
+[Route("users")]
 public class UserController(IUserService userService) : ControllerBase
 {
 	[HttpGet]
